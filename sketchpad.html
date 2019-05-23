@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <script src="//at.alicdn.com/t/font_1208039_zwukrovziy.js"></script>
+    <link rel="stylesheet" href="sketchpad.css">
+    <title>画板</title>
+</head>
+<body>
+    <canvas id="canvas" class="canvas"></canvas>
+    <div class="tool">
+        <svg class="icon" aria-hidden="true" id="brush">
+            <use xlink:href="#icon-huabi"></use>
+        </svg>
+        <svg class="icon" aria-hidden="true" id="rubber">
+            <use xlink:href="#icon-xiangpi"></use>
+        </svg>
+        <svg class="icon" aria-hidden="true" id="save">
+            <use xlink:href="#icon-save-line"></use>
+        </svg>
+        <ul class="brush_color">
+            <li class="black" id="black"></li>
+            <li class="red" id="red"></li>
+            <li class="blue" id="blue"></li>
+        </ul>
+    </div>
+    <!--橡皮檫 ，保存，手机端，优化-->
+    <script src="sketchpad.js"></script>
+</body>
+</html>
