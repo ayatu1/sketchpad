@@ -152,12 +152,3 @@ function changeTool() {
         a.click()
     }
 }
-
-
-
-
-
-
-
-
-
