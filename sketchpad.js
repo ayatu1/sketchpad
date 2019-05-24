@@ -11,59 +11,73 @@ window.onresize = function () {
 var context = canvas.getContext('2d');
 var oldCoordinate = null
 var newCoordinate = null
-var isStart = false
-var isPainting = false
+var isUsing = false
+var useRubber = false
 
 canvas.onmousedown = function (event) {
-    if(isStart) {
-        isPainting = true
-        oldCoordinate = {
-            x: event.clientX,
-            y: event.clientY
-        }
-        context.beginPath();
-        context.lineWidth = 3
-        context.moveTo(oldCoordinate.x, oldCoordinate.y)
+    isUsing = true
+    oldCoordinate = {
+        x: event.clientX,
+        y: event.clientY
+    }
+    if(useRubber) {
+        context.clearRect(oldCoordinate.x, oldCoordinate.y, 30, 30)
     }
 }
 canvas.onmousemove = function () {
-    if(isPainting) {
-        newCoordinate = {
-            x: event.clientX,
-            y: event.clientY
-        }
-        //记录当前坐标，开始画线
-        context.lineTo(newCoordinate.x, newCoordinate.y)
-        context.stroke();
-        oldCoordinate = newCoordinate
+    newCoordinate = {
+        x: event.clientX,
+        y: event.clientY
     }
-    //
-    // console.log(2)
+    if(isUsing) {
+        if(useRubber) {
+            context.clearRect(newCoordinate.x, newCoordinate.y, 30, 30)
+        } else {
+            //记录当前坐标，开始画线
+            drawLine(oldCoordinate.x, oldCoordinate.y, newCoordinate.x, newCoordinate.y)
+            oldCoordinate = newCoordinate
+        }
+    }
 }
 canvas.onmouseup = function () {
-    isPainting = false
+    isUsing = false
+}
+
+function drawLine(x1, y1, x2, y2) {
+    context.beginPath();
+    context.lineWidth = 3
+    context.moveTo(x1, y1)
+    context.lineTo(x2, y2)
+    context.stroke();
+    context.closePath()
 }
 var brush = document.getElementById('brush')
 var rubber = document.getElementById('rubber')
 var save = document.getElementById('save')
 brush.onclick = function () {
-    isStart = true
+    useRubber = false
     brush.classList.add('active')
     rubber.classList.remove('active')
     save.classList.remove('active')
 }
 rubber.onclick = function () {
-    isStart = false
+    useRubber = true
     rubber.classList.add('active')
     brush.classList.remove('active')
     save.classList.remove('active')
 }
 save.onclick = function () {
-    isStart = false
+    useRubber = false
     save.classList.add('active')
     brush.classList.remove('active')
     rubber.classList.remove('active')
 
+    var strDataURI = canvas.toDataURL("image/png")
+    var a = document.createElement('a')
+    document.body.appendChild(a)
+    a.href = strDataURI
+    a.download = 'pad'
+    a.click()
 }
 var black = document.getElementById('black')
 var red = document.getElementById('red')
@@ -86,5 +100,6 @@ blue.onclick = function () {
     black.classList.remove('active')
     red.classList.remove('active')
 }
+
 
 
